@@ -7,8 +7,10 @@ It currently shows:
 
 - timestamp
 - battery life
+- user & host status
 - current directory
 - git branch
 - git file counter not sent
 - git commits counter uncommitted
 - [awesome terminal icons](https://github.com/gabrielelana/awesome-terminal-fonts/)
+
