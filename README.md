@@ -12,3 +12,8 @@ It currently shows:
 - git commits counter uncommitted
 - [awesome terminal icons](https://github.com/gabrielelana/awesome-terminal-fonts/)
 
+## Previews
+
+![preview home directory](images/preview-home.png)
+![preview home directory](images/preview-git.png)
+
