@@ -287,7 +287,6 @@ prompt_time() {
   prompt_segment white black "\ue12e %D{%H:%M}"
 }
 
-
 ## Main prompt
 build_prompt() {
   RETVAL=$?
