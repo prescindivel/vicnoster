@@ -85,7 +85,7 @@ prompt_context() {
     PL_USER_CHAR=$'\ue11f'
   }
   if [[ "$USER" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment 042 black "%(!.%{%F{black}%}.)$USER@%m"
+    prompt_segment 042 black "%(!.%{%F{black}%}.)$USER"
   fi
 }
 
@@ -126,9 +126,9 @@ prompt_git() {
     STAGE="$PL_ADD_CHAR"
     UNSTAGE="$PL_MOD_CHAR"
 
-    UNCOMMIT_CHANGES=$(git status | grep 'modified:' | wc -l 2>/dev/null)
-    UNTRACKED_FILES=$(git diff | grep 'diff' | wc -l 2>/dev/null)
-    DELETED_FILES=$(git diff | grep 'deleted' | wc -l 2>/dev/null)
+    UNCOMMIT_CHANGES=$(git status | grep 'modified:' | wc -l | sed -e 's/ //g' 2>/dev/null)
+    UNTRACKED_FILES=$(git diff | grep 'diff' | wc -l | sed -e 's/ //g' 2>/dev/null)
+    DELETED_FILES=$(git diff | grep 'deleted' | wc -l | sed -e 's/ //g' 2>/dev/null)
 
     if [[ $UNCOMMIT_CHANGES -gt 0 && $UNTRACKED_FILES -gt 0 || $DELETED_FILES -gt 0 ]]; then
       STAGE=" $PL_ADD_CHAR"
@@ -144,8 +144,8 @@ prompt_git() {
     zstyle ':vcs_info:*' actionformats ' %u%c'
     vcs_info
 
-    DIRECTORY_IS_CLEAN=$(git status | grep 'directory clean' | wc -l 2>/dev/null)
-    UNPUSHED_COMMITS=$(git log --branches --not --remotes | grep 'commit' | wc -l 2>/dev/null)
+    DIRECTORY_IS_CLEAN=$(git status | grep 'directory clean' | wc -l | sed -e 's/ //g' 2>/dev/null)
+    UNPUSHED_COMMITS=$(git log --branches --not --remotes | grep 'commit' | wc -l | sed -e 's/ //g' 2>/dev/null)
     if [[ $DIRECTORY_IS_CLEAN == 1 && $UNPUSHED_COMMITS == 0 ]]; then
       echo -n "${ref/refs\/heads\//$PL_BRANCH_CHAR }${vcs_info_msg_0_%% }${mode} $PL_CLEAN_CHAR"
     else
@@ -162,7 +162,7 @@ prompt_changes() {
     PL_FILES_CHAR=$'\ue812'
   }
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    UNCOMMIT_CHANGES=$(git status | grep 'modified:' | wc -l 2>/dev/null)
+    UNCOMMIT_CHANGES=$(git status | grep 'modified:' | wc -l | sed -e 's/ //g' 2>/dev/null)
 
     if [[ $UNCOMMIT_CHANGES -gt 0 ]]; then
       prompt_segment 240 white "$PL_FILES_CHAR $UNCOMMIT_CHANGES"
@@ -178,7 +178,7 @@ prompt_commits() {
     PL_COMMITS_CHAR=$'\ue821'
   }
   if $(git rev-parse --is-inside-work-tree >/dev/null 2>&1); then
-    UNPUSHED_COMMITS=$(git log --branches --not --remotes | grep 'commit' | wc -l 2>/dev/null)
+    UNPUSHED_COMMITS=$(git log --branches --not --remotes | grep 'commit' | wc -l | sed -e 's/ //g' 2>/dev/null)
 
     if [[ $UNPUSHED_COMMITS -gt 0 ]]; then
       prompt_segment white black "$PL_COMMITS_CHAR $UNPUSHED_COMMITS"
@@ -268,6 +268,26 @@ prompt_battery() {
       if [ $b -gt 40 ] ; then
         prompt_segment 082 black
       elif [ $b -gt 20 ] ; then
+        prompt_segment 178 black
+      else
+        PL_HEART_CHAR='\ue19a '
+        prompt_segment 196 black
+      fi
+      echo -n "$PL_HEART_CHAR$(battery_pct_remaining)%%"
+    fi
+  fi
+
+  if [[ $(uname) == "Darwin" ]] ; then
+    function battery_pct_remaining() {
+      echo $(pmset -g ps  |  sed -n 's/.*[[:blank:]]+*\(.*%\).*/\1/p' | tr -d '%')
+    }
+
+    b=$(battery_pct_remaining)
+
+    if [[ $(pmset -g ps  |  sed -n 's/.*[[:blank:]]+*\(.*%\).*/\1/p' | tr -d '%' 2&>/dev/null) -gt 0 ]] ; then
+      if [ $b -gt 40 ] ; then
+        prompt_segment 082 black
+      elif [ $b -gt 20 ]; then
         prompt_segment 178 black
       else
         PL_HEART_CHAR='\ue19a '
