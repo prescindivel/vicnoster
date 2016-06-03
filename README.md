@@ -26,22 +26,25 @@ It currently shows:
 
 3. install [vicnoster zsh theme](https://github.com/victordev/vicnoster) in your themes folder`~/.oh-my-zsh/themes/` 
 
-	```shell
+	```
 	$ curl -o ~/.oh-my-zsh/themes/vic.zsh-theme https://raw.githubusercontent.com/victordev/vicnoster/master/vicnoster.zsh-theme
 	```
 4. select the theme vicnoster in your `.zshrc` file
 
 	1. open the `.zshrc` file
-		```shell
-		$ vim ~/.zshrc
-		```
-	2. find `ZSH_THEME` and change to:
-		```shell
-		ZSH_THEME="vicnoster"
-		```
-5. reload `.zshrc`
-	```shell
-	$ source ~/.zshrc
+	
 	```
+	$ vim ~/.zshrc
+	```
+	2. find `ZSH_THEME` and change to:
+	
+	```
+	ZSH_THEME="vicnoster"
+	```
+5. reload `.zshrc`
+
+```
+$ source ~/.zshrc
+```
 
 
