@@ -1,5 +1,3 @@
-# vicnoster
-
 ## vicnoster is a [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) theme based on the [Powerline Vim](https://github.com/Lokaltog/vim-powerline) plugin & [Agnoster](https://github.com/robbyrussell/oh-my-zsh/wiki/themes#agnoster) theme.
 
 It currently shows:
